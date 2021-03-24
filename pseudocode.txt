@@ -3,15 +3,26 @@ Step Five: Profile Edit
 
 There are buttons throughout the site for editing your profile, but this is unimplemented.
 
-    It should show a form with the following:
+    (1)It should ensure a user is logged on (you can see how this is done in other routes) - done
+    (2)It should show a form with the following:
         username
         email
         image_url
         header_image_url
         bio
         password [see below]
-        
-    It should check that that password is the valid password for the user—if not, it should flash an error and return to the homepage.
-    It should edit the user for all of these fields except password (ie, this is not an area where users can change their passwords–the password is only for checking if it is the current correct password.
+    (3)It should check that that password is the valid password for the user—if not, it should flash an error and return to the homepage.
+    (4)It should edit the user for all of these fields except password (ie, this is not an area where users can change their passwords–the password is only for checking if it is the current correct password.
+
     On success, it should redirect to the user detail page.
 
+
+declare route - path function check
+check if logged in by checking the session check
+if logged in continue check
+if not redirect to appropriate route check
+declare form to see
+if form valid on submit do:
+    get form data
+    save form data
+    redirect to user page

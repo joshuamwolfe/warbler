@@ -15,7 +15,7 @@ from models import db, User, Message, Follows
 # before we import our app, since that will have already
 # connected to the database
 
-os.environ['DATABASE_URL'] = "postgresql:///warbler-test"
+os.environ["DATABASE_URL"] = "postgresql:///warbler-test"
 
 
 # Now we can import app
@@ -44,11 +44,7 @@ class UserModelTestCase(TestCase):
     def test_user_model(self):
         """Does basic model work?"""
 
-        u = User(
-            email="test@test.com",
-            username="testuser",
-            password="HASHED_PASSWORD"
-        )
+        u = User(email="test@test.com", username="testuser", password="HASHED_PASSWORD")
 
         db.session.add(u)
         db.session.commit()

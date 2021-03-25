@@ -158,6 +158,30 @@ def users_show(user_id):
     return render_template("users/show.html", user=user, messages=messages)
 
 
+@app.route(
+    "/users/add_like/<int:msg_id>",
+    methods=["POST"],
+)
+def add_like(msg_id):
+    """It adds a like to a message, for logged in user"""
+
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+
+    liked_message = Message.query.get_or_404(msg_id)
+
+    user_likes = g.user.likes
+
+    if liked_message in user_likes:
+        g.user.likes = [like for like in user_likes if like != liked_message]
+    else:
+        g.user.likes.append(liked_message)
+
+    db.session.commit()
+    return redirect("/")
+
+
 @app.route("/users/<int:user_id>/following")
 def show_following(user_id):
     """Show list of people this user is following."""

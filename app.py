@@ -158,10 +158,7 @@ def users_show(user_id):
     return render_template("users/show.html", user=user, messages=messages)
 
 
-@app.route(
-    "/users/add_like/<int:msg_id>",
-    methods=["POST"],
-)
+@app.route("/users/add_like/<int:msg_id>", methods=["POST"])
 def add_like(msg_id):
     """It adds a like to a message, for logged in user"""
 

@@ -1,11 +1,11 @@
 import os
 
-from flask import Flask, render_template, request, flash, redirect, session, g
+from flask import Flask, render_template, request, flash, redirect, session, g, abort
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 
 from forms import UserAddForm, LoginForm, MessageForm, UserEditForm
-from models import db, connect_db, User, Message
+from models import db, connect_db, User, Message, Likes
 
 CURR_USER_KEY = "curr_user"
 
@@ -168,6 +168,9 @@ def add_like(msg_id):
 
     liked_message = Message.query.get_or_404(msg_id)
 
+    if liked_message.user_id == g.user.id:
+        return abort(403)
+
     user_likes = g.user.likes
 
     if liked_message in user_likes:
@@ -231,6 +234,20 @@ def stop_following(follow_id):
     db.session.commit()
 
     return redirect(f"/users/{g.user.id}/following")
+
+
+@app.route("/users/<int:user_id>/likes")
+def show_likes(user_id):
+    """Have currently logged in user show the likes on their page"""
+
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+
+    user = User.query.get_or_404(user_id)
+    likes = user.likes
+
+    return render_template("users/likes.html", user=user, likes=likes)
 
 
 @app.route("/users/profile", methods=["GET", "POST"])

@@ -34,12 +34,24 @@ class UserModelTestCase(TestCase):
 
     def setUp(self):
         """Create test client, add sample data."""
+        db.drop_all()
+        db.create_all()
 
-        User.query.delete()
-        Message.query.delete()
-        Follows.query.delete()
+        u1 = User.signup("test1", "email1@email.com", "password", None)
+        u2 = User.signup("test2", "email2@email.com", "password", None)
+
+        db.session.commit()
+
+        self.u1 = u1
+
+        self.u2 = u2
 
         self.client = app.test_client()
+
+    def tearDown(self):
+        res = super().tearDown()
+        db.session.rollback()
+        return res
 
     def test_user_model(self):
         """Does basic model work?"""
@@ -52,3 +64,6 @@ class UserModelTestCase(TestCase):
         # User should have no messages & no followers
         self.assertEqual(len(u.messages), 0)
         self.assertEqual(len(u.followers), 0)
+
+    # def test_die_repr(self):
+    #     repr(self.User)

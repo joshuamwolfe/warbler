@@ -1,26 +1,26 @@
-{% extends 'base.html' %}
+{% extends 'users/detail.html' %}
+{% block user_details %}
+<div class="col-sm-6">
+    <ul class="list-group" id="messages">
 
-{% block body_class %}onboarding{% endblock %}
+        {% for message in messages %}
 
-{% block content %}
+        <li class="list-group-item">
+            <a href="/messages/{{ message.id }}" class="message-link" />
 
-<div class="row justify-content-md-center">
-    <div class="col-md-7 col-lg-5">
-        <h2 class="join-message">Welcome back.</h2>
+            <a href="/users/{{ user.id }}">
+                <img src="{{ user.image_url }}" alt="user image" class="timeline-image">
+            </a>
 
-        <form method="POST" id="user_form">
-            {{ form.hidden_tag() }}
+            <div class="message-area">
+                <a href="/users/{{ user.id }}">@{{ user.username }}</a>
+                <span class="text-muted">{{ message.timestamp.strftime('%d %B %Y') }}</span>
+                <p>{{ message.text }}</p>
+            </div>
+        </li>
 
-            {% for field in form if field.widget.input_type != 'hidden' %}
-            {% for error in field.errors %}
-            <span class="text-danger">{{ error }}</span>
-            {% endfor %}
-            {{ field(placeholder=field.label.text, class="form-control") }}
-            {% endfor %}
+        {% endfor %}
 
-            <button class="btn btn-primary btn-block btn-lg">Log in</button>
-        </form>
-    </div>
+    </ul>
 </div>
-
 {% endblock %}

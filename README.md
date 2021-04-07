@@ -1,5 +1,6 @@
 # twitter-flask-clone
- Springboard Project, fixup a twitter clone. Has some starter code. 
+
+Springboard Project, fixup a twitter clone. Has some starter code.
 
 # To Whom It may Concern:
 
